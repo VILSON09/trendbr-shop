@@ -1225,7 +1225,7 @@ const PRODUCTS = [
   // ═══ FONES DE OUVIDO ═══════════════════════════════════════════
   {id:25,name:'Fone Bluetooth 5.3 ANC Pro',cat:'Eletrônicos',emoji:'🎧',badge:'HOT',stars:4.7,reviews:5600,oldPrice:289.90,price:139.90,discount:'52% OFF',custo:22.00,
    desc:'Cancelamento ativo de ruído (ANC), 8h playtime, microfone HD, design ergonômico dobrável.',
-   feats:['ANC cancelamento ruído','8h de bateria','Mic HD embutido','Dobrável e compacto','iOS e Android'],
+   feats:['ANC cancelamento ruído','8h de bateria','Mic HD embutido','Dobrável e compacto','iOS e Android],
    img:'https://ae-pic-a1.aliexpress-media.com/kf/Sc1d1f617f58242b589e47a4a81d87fbcm.jpg',
    aliLink:'https://pt.aliexpress.com/w/wholesale-bluetooth-headphones-anc-noise.html?sortType=total_transy_desc',aliSearch:'bluetooth headphones ANC noise cancelling foldable mic'},
 
@@ -1237,13 +1237,13 @@ const PRODUCTS = [
 
   {id:27,name:'Fone Over-Ear Air Max BT Surround',cat:'Eletrônicos',emoji:'🎵',badge:'NEW',stars:4.5,reviews:3100,oldPrice:199.90,price:94.90,discount:'52% OFF',custo:14.00,
    desc:'Fone over-ear com som surround estéreo e design air max. Confortável para longas sessões.',
-   feats:['Som surround estéreo','Design air max','3000+ vendidos','Confortável e leve','Para iOS e Android'],
+   feats:['Som surround estéreo','Design air max','3000+ vendidos','Confortável e leve','Para iOS e Android],
    img:'https://ae-pic-a1.aliexpress-media.com/kf/S4da2f554890d4186974db220f8359f0fI.jpg',
    aliLink:'https://pt.aliexpress.com/w/wholesale-over-ear-bluetooth-surround-gaming.html?sortType=total_transy_desc',aliSearch:'over ear bluetooth headphone stereo surround gaming'},
 
   {id:28,name:'Fone BT 5.0 Multifuncional Dobrável',cat:'Eletrônicos',emoji:'🎵',badge:'HOT',stars:4.9,reviews:10000,oldPrice:179.90,price:74.90,discount:'58% OFF',custo:10.00,
    desc:'Fone Bluetooth 5.0 com conexão TF Card e modo com fio. Ultra-compacto e dobrável. 10.000+ vendidos.',
-   feats:['Bluetooth 5.0 + TF Card','Modo com fio P2','10.000+ vendidos','Ultra-compacto','Dobrável portátil'],
+   feats:['Bluetooth 5.0 + TF Card,'Modo com fio P2','10.000+ vendidos','Ultra-compacto','Dobrável portátil'],
    img:'https://ae-pic-a1.aliexpress-media.com/kf/S557fba8e51704347bf25365c9d5ca8f8Z.jpg',
    aliLink:'https://pt.aliexpress.com/w/wholesale-bluetooth-headset-foldable-tf-card.html?sortType=total_transy_desc',aliSearch:'bluetooth headset foldable TF card wired connection 5.0'},
 
@@ -1261,14 +1261,14 @@ const PRODUCTS = [
 
   {id:31,name:'Fone In-Ear Wireless Esportivo',cat:'Eletrônicos',emoji:'🎧',badge:'NEW',stars:4.7,reviews:340,oldPrice:159.90,price:74.90,discount:'53% OFF',custo:10.00,
    desc:'Fone in-ear sem fio para esportes. Design ergonômico, redução de ruído e 340+ avaliações.',
-   feats:['Design in-ear esportivo','Redução de ruído','Longa bateria','340+ avaliações','Compatível iOS/Android'],
+   feats:['Design in-ear esportivo','Redução de ruído','Longa bateria','340+ avaliações','Compatível iOS/Android],
    img:'https://ae-pic-a1.aliexpress-media.com/kf/Se54a17c64c8f4df2855044827b04cb3fr.jpg',
    aliLink:'https://pt.aliexpress.com/w/wholesale-in-ear-bluetooth-sport-earphones.html?sortType=total_transy_desc',aliSearch:'in-ear bluetooth sport earphones wireless noise reduction'},
 
   // ═══ SMARTWATCHES ══════════════════════════════════════════════
   {id:32,name:'Smartwatch Fitness IP68 Cubot',cat:'Eletrônicos',emoji:'⌚',badge:'HOT',stars:4.7,reviews:3200,oldPrice:349.90,price:159.90,discount:'54% OFF',custo:24.00,
    desc:'Smartwatch IP68 com monitor cardíaco 24h, oxímetro SpO2, GPS e 7 dias de bateria.',
-   feats:['Monitor cardíaco 24h','Oxímetro SpO2','GPS integrado','IP68 à prova d'água','7 dias de bateria'],
+   feats:['Monitor cardíaco 24h','Oxímetro SpO2','GPS integrado','IP68 à prova dagua','7 dias de bateria'],
    img:'https://ae-pic-a1.aliexpress-media.com/kf/Sc20042b0722748fd8f2af766314a33fbr.png',
    aliLink:'https://pt.aliexpress.com/w/wholesale-smartwatch-ip68-fitness-tracker.html?sortType=total_transy_desc',aliSearch:'smartwatch IP68 fitness tracker heart rate GPS sport'},
 
@@ -1569,7 +1569,7 @@ function addFromDetail() {
   const p = PRODUCTS.find(x => x.id === detailId);
   const ex = cart.find(x => x.id === detailId);
   if (ex) ex.qty += detailQty; else cart.push({ ...p, qty: detailQty });
-  updateCart(); notify('🛒', `"${p.name.slice(0, 22)}…" adicionado!`); closeDetail(); toggleCart();
+  updateCart(); notify('🛒', `${p.name.slice(0, 22)}… adicionado!`); closeDetail(); toggleCart();
 }
 
 // ====================================================
@@ -1579,7 +1579,7 @@ function addToCart(id) {
   const p = PRODUCTS.find(x => x.id === id);
   const ex = cart.find(x => x.id === id);
   if (ex) ex.qty++; else cart.push({ ...p, qty: 1 });
-  updateCart(); notify('🛒', `"${p.name.slice(0, 22)}…" adicionado!`);
+  updateCart(); notify('🛒', `${p.name.slice(0, 22)}… adicionado!`);
 }
 function remCart(id) { cart = cart.filter(x => x.id !== id); updateCart(); }
 function chgQty(id, d) { const i = cart.find(x => x.id === id); if (!i) return; i.qty += d; if (i.qty <= 0) remCart(id); else updateCart(); }
@@ -2089,17 +2089,6 @@ function saveConfig() {
 // ====================================================
 // INIT
 // ====================================================
-renderHome();
-renderReviews();
-renderFAQ();
-renderCats();
-renderAll();
-updateCart();
-updateAdminBadge();
-startCountdown();
-initWA();
-updateContactPage();
-
 // Mobile nav
 function toggleMobileNav(){
   const nav=document.getElementById('mobile-nav');
@@ -2114,6 +2103,19 @@ function closeMobileNav(){
   if(nav) nav.classList.remove('open');
   if(ham) ham.classList.remove('open');
 }
+
+renderHome();
+renderReviews();
+renderFAQ();
+renderCats();
+renderAll();
+updateCart();
+updateAdminBadge();
+startCountdown();
+initWA();
+updateContactPage();
+
+
 
 // Newsletter popup após 8s
 setTimeout(() => {
