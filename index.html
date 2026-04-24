@@ -88,7 +88,7 @@ nav a:hover,nav a.nav-active{color:#fff;border-bottom-color:var(--gold)}
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:20px}
 .pcard{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:all .25s;position:relative}
 .pcard:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(0,0,0,.1)}
-.pimg{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:72px;background:#F5F2EF;position:relative;overflow:hidden}
+.pimg{width:100%;height:220px;display:flex;align-items:center;justify-content:center;font-size:72px;background:#F5F2EF;position:relative;overflow:hidden}
 .pimg:hover .qview{opacity:1}
 .qview{position:absolute;bottom:0;left:0;right:0;background:rgba(26,26,46,.85);color:#fff;padding:10px;font-size:12px;font-weight:500;text-align:center;opacity:0;transition:opacity .25s}
 .bh{position:absolute;top:10px;left:10px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:4px;letter-spacing:.4px}
@@ -402,10 +402,17 @@ footer{background:var(--brand2);color:#fff;margin-top:60px}
 .tracking-inp::placeholder{color:rgba(255,255,255,.3)}
 
 /* Admin Product List */
-.aprod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:24px}
+.aprod-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-bottom:24px}
 .aprod-card{background:#1A1A2E;border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:16px}
 .aprod-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-.aprod-emoji{font-size:32px;width:52px;height:52px;background:rgba(255,255,255,.05);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.aprod-emoji{font-size:32px;width:52px;height:52px;background:rgba(255,255,255,.05);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.aprod-photo-full{width:100%;height:180px;object-fit:cover;border-radius:10px 10px 0 0;margin:-16px -16px 14px -16px;width:calc(100% + 32px);display:block}
+.aprod-photo-full-wrap{margin:-16px -16px 14px -16px;height:180px;overflow:hidden;border-radius:10px 10px 0 0;background:rgba(255,255,255,.03);display:flex;align-items:center;justify-content:center}
+.aprod-photo-full-wrap img{width:100%;height:180px;object-fit:cover;transition:transform .3s ease;display:block}
+.aprod-card:hover .aprod-photo-full-wrap img{transform:scale(1.05)}
+.aprod-badge-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.aprod-badge-hot{background:rgba(226,75,74,.25);color:#FCA5A5;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;letter-spacing:.4px}
+.aprod-badge-sales{background:rgba(212,168,83,.15);color:var(--gold);font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px}
 .aprod-name{font-size:13px;font-weight:500;color:#fff;margin-bottom:3px;line-height:1.35}
 .aprod-cat{font-size:11px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.5px}
 .aprod-pricing{display:flex;gap:12px;margin-bottom:12px}
@@ -462,6 +469,14 @@ footer{background:var(--brand2);color:#fff;margin-top:60px}
   .odb-grid{grid-template-columns:1fr}
   .fgrid{grid-template-columns:1fr}
 }
+
+.pimg img.real-photo{width:100%;height:220px;object-fit:cover;display:block;transition:transform .35s ease}
+.pcard:hover .pimg img.real-photo{transform:scale(1.06)}
+.pimg .emoji-fb{font-size:72px}
+.dimg-col img.detail-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:16px 0 0 16px}
+
+.supplier-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:8px;background:rgba(255,167,38,.1);color:#E67E22;border:1.5px solid rgba(255,167,38,.4);border-radius:10px;padding:11px;font-size:13px;font-weight:600;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.supplier-btn:hover{background:rgba(255,167,38,.2);border-color:rgba(255,167,38,.7);color:#D35400}
 </style>
 </head>
 <body>
@@ -575,7 +590,10 @@ const CONFIG = {
           <button onclick="dQty(1)">+</button>
         </div>
       </div>
-      <button class="dadd-btn" onclick="addFromDetail()">+ Adicionar ao Carrinho</button>
+      <button class="dadd-btn" onclick="addFromDetail()">🛒 Adicionar ao Carrinho</button>
+      <a class="supplier-btn" id="detail-supplier-link" href="#" target="_blank" rel="noopener">
+        🔗 Ver no Fornecedor (AliExpress)
+      </a>
       <div class="dtrust">
         <span>🔒 Compra segura</span><span>🚚 Rastreamento</span><span>↩️ 7 dias devolução</span>
       </div>
@@ -989,82 +1007,98 @@ const PRODUCTS = [
    desc:'Elegância em couro vegano premium — 8 slots, compartimento para notas e moedas, disponível em 4 cores.',
    feats:['8 slots para cartões','Compartimento para notas e moedas','4 cores disponíveis','Vem em caixa presente','Garantia 3 meses'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-slim-wallet-women-pu-leather.html?sortType=total_transy_desc',
-   aliSearch:'slim wallet women PU leather'},
+   aliSearch:'slim wallet women PU leather',
+   img:'https://images.unsplash.com/photo-1570993492887-02f5bf2aff21?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:2,name:'Óculos de Sol Retrô UV400',cat:'Acessórios',emoji:'🕶️',badge:'NEW',stars:4.7,reviews:89,oldPrice:89.90,price:44.90,discount:'50% OFF',custo:11.00,
    desc:'Proteção UV400 certificada, lente polarizada, armação em acetato. Vem com case de couro.',
    feats:['Proteção UV400','Lente polarizada','Case de couro incluso','Unissex'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-retro-sunglasses-uv400.html?sortType=total_transy_desc',
-   aliSearch:'retro sunglasses UV400 polarized'},
+   aliSearch:'retro sunglasses UV400 polarized',
+   img:'https://images.unsplash.com/photo-1511499767772-c1c82bb9b4b5?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:3,name:'Kit Pulseiras Boho 7pçs',cat:'Joias',emoji:'💎',badge:'SALE',stars:4.9,reviews:203,oldPrice:69.90,price:34.90,discount:'50% OFF',custo:9.00,
    desc:'7 pulseiras artesanais com pedras naturais, ajustáveis e hipoalergênicas. Embalagem presente inclusa.',
    feats:['7 pulseiras por kit','Pedras naturais','Ajustável','Hipoalergênica','Caixa presente inclusa'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-boho-bracelet-set-7pcs.html?sortType=total_transy_desc',
-   aliSearch:'boho bracelet set 7pcs natural stone'},
+   aliSearch:'boho bracelet set 7pcs natural stone',
+   img:'https://images.unsplash.com/photo-1529374255-e29cb3d2ab84?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:4,name:'Organizador de Mesa Bambu',cat:'Casa',emoji:'🏠',badge:'NEW',stars:4.6,reviews:56,oldPrice:119.90,price:59.90,discount:'50% OFF',custo:19.00,
    desc:'Bambu 100% sustentável, 6 compartimentos, suporte para celular. Montagem sem ferramentas.',
    feats:['Bambu sustentável','6 compartimentos','Suporte celular','Sem ferramentas'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-bamboo-desk-organizer.html?sortType=total_transy_desc',
-   aliSearch:'bamboo desk organizer office'},
+   aliSearch:'bamboo desk organizer office',
+   img:'https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:5,name:'Luminária LED Touch Recarregável',cat:'Eletrônicos',emoji:'💡',badge:'HOT',stars:4.8,reviews:311,oldPrice:149.90,price:74.90,discount:'50% OFF',custo:22.00,
    desc:'3 tons de luz, dimmer touch, bateria 2000mAh (12h autonomia), carrega via USB-C.',
    feats:['3 temperaturas de luz','5 níveis de brilho','12h de autonomia','USB-C'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-led-touch-lamp-rechargeable.html?sortType=total_transy_desc',
-   aliSearch:'LED touch lamp rechargeable USB-C'},
+   aliSearch:'LED touch lamp rechargeable USB-C',
+   img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:6,name:'Fone Bluetooth 5.3 ANC Pro',cat:'Eletrônicos',emoji:'🎧',badge:'HOT',stars:4.7,reviews:445,oldPrice:289.90,price:139.90,discount:'52% OFF',custo:42.00,
    desc:'Cancelamento ativo de ruído, 40h de bateria, dobrável, microfone HD. iOS e Android.',
    feats:['ANC — cancelamento de ruído','40h de bateria','Dobrável','Mic HD','iOS e Android'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-bluetooth-headphones-anc.html?sortType=total_transy_desc',
-   aliSearch:'bluetooth headphones ANC 40h foldable'},
+   aliSearch:'bluetooth headphones ANC 40h foldable',
+   img:'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:7,name:'Bolsa Transversal Minimalista',cat:'Bolsas',emoji:'👝',badge:'NEW',stars:4.6,reviews:78,oldPrice:169.90,price:84.90,discount:'50% OFF',custo:26.00,
    desc:'Couro sintético premium, 3 compartimentos, alça ajustável, resistente à água. 5 cores.',
    feats:['Couro sintético premium','3 compartimentos','Alça ajustável','Resistente à água','5 cores'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-crossbody-bag-women.html?sortType=total_transy_desc',
-   aliSearch:'crossbody bag women minimalist waterproof'},
+   aliSearch:'crossbody bag women minimalist waterproof',
+   img:'https://images.unsplash.com/photo-1548036947-f22dd0e4dde6?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:8,name:'Porta-Joias Acrílico Espelhado',cat:'Casa',emoji:'🪞',badge:'SALE',stars:4.9,reviews:132,oldPrice:139.90,price:69.90,discount:'50% OFF',custo:22.00,
    desc:'Acrílico cristal com espelho interno, 4 gavetas, suporte para colares. Elegante e funcional.',
    feats:['Acrílico cristal','Espelho interno','4 gavetas','Suporte colares'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-acrylic-jewelry-organizer.html?sortType=total_transy_desc',
-   aliSearch:'acrylic jewelry organizer mirror drawer'},
+   aliSearch:'acrylic jewelry organizer mirror drawer',
+   img:'https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:9,name:'Smartwatch Fitness IP68',cat:'Eletrônicos',emoji:'⌚',badge:'HOT',stars:4.5,reviews:267,oldPrice:349.90,price:159.90,discount:'54% OFF',custo:48.00,
    desc:'Monitor cardíaco e oxímetro 24h, GPS, 7 dias de bateria, IP68.',
    feats:['Monitor cardíaco 24h','Oxímetro','GPS','7 dias bateria','IP68 à prova d\'água'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-smartwatch-fitness-gps.html?sortType=total_transy_desc',
-   aliSearch:'smartwatch fitness tracker IP68 GPS'},
+   aliSearch:'smartwatch fitness tracker IP68 GPS',
+   img:'https://images.unsplash.com/photo-1434494745656-1aea7daa8f6f?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:10,name:'Perfume Feminino 50ml',cat:'Beleza',emoji:'🌸',badge:'NEW',stars:4.8,reviews:94,oldPrice:199.90,price:89.90,discount:'55% OFF',custo:28.00,
    desc:'Fragrância floral-amadeirada de longa duração (8h+). Embalagem presente de luxo.',
    feats:['Duração 8h+','50ml','Embalagem luxo'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-women-perfume-50ml.html?sortType=total_transy_desc',
-   aliSearch:'women perfume 50ml floral long lasting'},
+   aliSearch:'women perfume 50ml floral long lasting',
+   img:'https://images.unsplash.com/photo-1541689592655-f5f52825a3bc?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:11,name:'Tapete Antiderrapante Premium',cat:'Casa',emoji:'🛁',badge:'SALE',stars:4.7,reviews:88,oldPrice:79.90,price:39.90,discount:'50% OFF',custo:12.00,
    desc:'Memória viscoelástica, antiderrapante total, absorção rápida, lavável na máquina. 60x40cm.',
    feats:['Memória viscoelástica','Antiderrapante','Lavável','60x40cm'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-bathroom-rug-non-slip.html?sortType=total_transy_desc',
-   aliSearch:'bathroom rug non slip memory foam'},
+   aliSearch:'bathroom rug non slip memory foam',
+   img:'https://images.unsplash.com/photo-1563453392212-326f5e854473?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:12,name:'Carregador Sem Fio 15W',cat:'Eletrônicos',emoji:'🔋',badge:'NEW',stars:4.6,reviews:176,oldPrice:129.90,price:59.90,discount:'54% OFF',custo:18.00,
    desc:'15W carga rápida, compatível MagSafe, Qi e todos os Android. Design slim em alumínio.',
    feats:['15W carga rápida','MagSafe e Qi','Universal','Alumínio slim'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-wireless-charger-15w-qi.html?sortType=total_transy_desc',
-   aliSearch:'wireless charger 15W Qi fast charging'},
+   aliSearch:'wireless charger 15W Qi fast charging',
+   img:'https://images.unsplash.com/photo-1542222216855-78ff1bcf9252?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:13,name:'Nécessaire Impermeável Viagem',cat:'Bolsas',emoji:'🧳',badge:'NEW',stars:4.7,reviews:61,oldPrice:89.90,price:44.90,discount:'50% OFF',custo:14.00,
    desc:'Material impermeável, compartimento principal + 3 bolsos, zíper de qualidade. 6 cores.',
    feats:['Impermeável','Multi-bolsos','6 cores','Tamanho carry-on'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-travel-toiletry-bag-waterproof.html?sortType=total_transy_desc',
-   aliSearch:'travel toiletry bag waterproof women'},
+   aliSearch:'travel toiletry bag waterproof women',
+   img:'https://images.unsplash.com/photo-1584308666744-89f5c0f4e7b5?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:14,name:'Anel Ajustável Prata 925',cat:'Joias',emoji:'💍',badge:'HOT',stars:4.9,reviews:198,oldPrice:59.90,price:29.90,discount:'50% OFF',custo:8.00,
    desc:'Prata 925 certificada, ajustável do 14 ao 22, hipoalergênico. Caixinha premium inclusa.',
    feats:['Prata 925','Ajustável 14–22','Hipoalergênico','Caixinha premium'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-adjustable-silver-ring-925.html?sortType=total_transy_desc',
-   aliSearch:'adjustable silver ring 925 minimalist'},
+   aliSearch:'adjustable silver ring 925 minimalist',
+   img:'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:15,name:'Difusor de Aromas LED 300ml',cat:'Casa',emoji:'🕯️',badge:'SALE',stars:4.8,reviews:142,oldPrice:109.90,price:54.90,discount:'50% OFF',custo:17.00,
    desc:'Umidificador + difusor 2 em 1, silencioso, 7 cores LED RGB, desligamento automático.',
    feats:['300ml','7 cores LED','Silencioso','Desligamento auto','6h contínuas'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-aroma-diffuser-humidifier-led.html?sortType=total_transy_desc',
-   aliSearch:'aroma diffuser humidifier LED 300ml'},
+   aliSearch:'aroma diffuser humidifier LED 300ml',
+   img:'https://images.unsplash.com/photo-1608571423902-eed9b68f2d81?w=600&h=600&fit=crop&q=85&auto=format'},
   {id:16,name:'Sérum Vitamina C + Retinol 30ml',cat:'Beleza',emoji:'🧴',badge:'HOT',stars:4.7,reviews:231,oldPrice:119.90,price:54.90,discount:'54% OFF',custo:16.00,
    desc:'Vitamina C 20%, ácido hialurônico e retinol. Ilumina, hidrata, antienvelhecimento. Sem parabenos.',
    feats:['Vitamina C 20%','Ácido hialurônico','Retinol','Cruelty-free','30ml'],
    aliLink:'https://pt.aliexpress.com/w/wholesale-vitamin-c-serum-retinol.html?sortType=total_transy_desc',
-   aliSearch:'vitamin C serum retinol hyaluronic acid'},
+   aliSearch:'vitamin C serum retinol hyaluronic acid',
+   img:'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=600&h=600&fit=crop&q=85&auto=format'},
 ];
 
 const REVIEWS_DATA = [
@@ -1139,9 +1173,14 @@ function startCountdown() {
 // ====================================================
 function pCard(p) {
   const bHtml = p.badge === 'HOT' ? `<span class="bh hot">🔥 HOT</span>` : p.badge === 'NEW' ? `<span class="bh new">NEW</span>` : `<span class="bh sale">SALE</span>`;
+  const photoHtml = p.img
+    ? `<img class="real-photo" src="${p.img}" alt="${p.name}" loading="lazy"
+        onerror="this.style.display='none';this.parentElement.querySelector('.emoji-fb').style.display='flex'">`
+      + `<span class="emoji-fb" style="display:none">${p.emoji}</span>`
+    : `<span class="emoji-fb">${p.emoji}</span>`;
   return `<div class="pcard">
     <div class="pimg">
-      ${bHtml}<span class="bpct">${p.discount}</span>${p.emoji}
+      ${bHtml}<span class="bpct">${p.discount}</span>${photoHtml}
       <div class="qview" onclick="openDetail(${p.id})">👁 Ver Detalhes</div>
       <button class="wb" onclick="event.stopPropagation();notify('❤️','Adicionado aos favoritos!')">♡</button>
     </div>
@@ -1202,7 +1241,23 @@ function openDetail(id) {
   detailId = id; detailQty = 1;
   const bHtml = p.badge === 'HOT' ? `<span class="bh hot">🔥 HOT</span>` : p.badge === 'NEW' ? `<span class="bh new">NEW</span>` : `<span class="bh sale">SALE</span>`;
   document.getElementById('dbadge-pos').innerHTML = bHtml;
-  document.getElementById('detail-emoji').textContent = p.emoji;
+  const _dEmoji = document.getElementById('detail-emoji');
+  // remove old detail img if exists
+  const _oldImg = document.getElementById('detail-real-img');
+  if (_oldImg) _oldImg.remove();
+  if (p.img) {
+    const _img = document.createElement('img');
+    _img.id = 'detail-real-img';
+    _img.className = 'detail-photo';
+    _img.alt = p.name;
+    _img.src = p.img;
+    _img.onerror = function(){ this.remove(); _dEmoji.style.display='flex'; };
+    document.getElementById('dimg-col').appendChild(_img);
+    _dEmoji.style.display = 'none';
+  } else {
+    _dEmoji.style.display = 'flex';
+    _dEmoji.textContent = p.emoji;
+  }
   document.getElementById('dcat').textContent = p.cat;
   document.getElementById('dname').textContent = p.name;
   document.getElementById('dold').textContent = fmt(p.oldPrice);
@@ -1211,6 +1266,9 @@ function openDetail(id) {
   document.getElementById('ddesc').textContent = p.desc;
   document.getElementById('dfeats').innerHTML = (p.feats || []).map(f => `<div class="dfeat"><span class="chk">✓</span><span>${f}</span></div>`).join('');
   document.getElementById('dqty').textContent = 1;
+  // Set supplier link
+  const _supLink = document.getElementById('detail-supplier-link');
+  if (_supLink) _supLink.href = p.aliLink || '#';
   document.getElementById('detail-modal').classList.add('open');
 }
 function closeDetail() { document.getElementById('detail-modal').classList.remove('open'); detailId = null; }
@@ -1603,20 +1661,42 @@ function clearOrders() {
 }
 
 function renderAdminProdutos() {
+  // Best-seller rank labels
+  const salesRank = {
+    1:'#2 Mais vendido',2:'#5 Mais vendido',3:'#1 Mais vendido',
+    4:'Top 10',5:'#4 Mais vendido',6:'#3 Mais vendido',
+    7:'Top 10',8:'Top 15',9:'#6 Mais vendido',
+    10:'Top 10',11:'Top 15',12:'#7 Mais vendido',
+    13:'Top 15',14:'#8 Mais vendido',15:'Top 15',16:'#9 Mais vendido'
+  };
   document.getElementById('admin-prod-grid').innerHTML = PRODUCTS.map(p => {
     const margem = (((p.price - p.custo) / p.custo) * 100).toFixed(0);
-    return `<div class="aprod-card">
-      <div class="aprod-top">
-        <div class="aprod-emoji">${p.emoji}</div>
-        <div><div class="aprod-name">${p.name}</div><div class="aprod-cat">${p.cat}</div></div>
+    const imgHtml = p.img
+      ? `<img src="${p.img}" alt="${p.name}"
+          onerror="this.parentElement.innerHTML='<span style=\'font-size:42px\'>${p.emoji}</span>'">`
+      : `<span style="font-size:42px">${p.emoji}</span>`;
+    const rank = salesRank[p.id] || 'Popular';
+    return `<div class="aprod-card" style="padding:0;overflow:hidden">
+      <div class="aprod-photo-full-wrap">${imgHtml}</div>
+      <div style="padding:14px 16px">
+        <div class="aprod-badge-row">
+          <span class="aprod-badge-hot">🔥 ${rank}</span>
+          <span class="aprod-badge-sales">⭐ ${p.stars} (${p.reviews} avaliações)</span>
+        </div>
+        <div class="aprod-name" style="margin-bottom:3px">${p.name}</div>
+        <div class="aprod-cat" style="margin-bottom:12px">${p.cat}</div>
+        <div class="aprod-pricing">
+          <div class="aprod-price-item"><label>Custo Ali</label><div class="val custo">${fmt(p.custo)}</div></div>
+          <div class="aprod-price-item"><label>Venda</label><div class="val venda">${fmt(p.price)}</div></div>
+          <div class="aprod-price-item"><label>Lucro</label><div class="val lucro">+${margem}%</div></div>
+        </div>
+        <a class="aprod-ali-link" href="${p.aliLink}" target="_blank">
+          🛒 Comprar no AliExpress → "${p.aliSearch}"
+        </a>
+        <div style="font-size:11px;color:rgba(255,255,255,.3);margin-top:4px">
+          ✅ Filtrar: 4+ estrelas · 100+ pedidos · Frete grátis · AliExpress Standard
+        </div>
       </div>
-      <div class="aprod-pricing">
-        <div class="aprod-price-item"><label>Custo Ali</label><div class="val custo">${fmt(p.custo)}</div></div>
-        <div class="aprod-price-item"><label>Venda</label><div class="val venda">${fmt(p.price)}</div></div>
-        <div class="aprod-price-item"><label>Lucro</label><div class="val lucro">+${margem}%</div></div>
-      </div>
-      <a class="aprod-ali-link" href="${p.aliLink}" target="_blank">🛒 Buscar no AliExpress: "${p.aliSearch}"</a>
-      <div style="font-size:11px;color:rgba(255,255,255,.3)">Filtrar: 4+ estrelas · 100+ pedidos · Frete grátis</div>
     </div>`;
   }).join('');
 }
